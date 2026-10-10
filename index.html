@@ -2,169 +2,313 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#080a0d"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Tofaş Simulator V2 – Ultra Gerçekçi 3D</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Tofaş Simulator - Çalışan Sürüm</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080a0d;font-family:Arial,sans-serif;color:#fff}
-#game{position:fixed;inset:0;width:100%;height:100%;display:block;background:#6e9bba}
-#hud{position:fixed;inset:0;pointer-events:none}
-.panel{position:absolute;background:rgba(5,8,12,.72);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:8px 11px;box-shadow:0 6px 20px #0007}
-#stats{left:10px;top:10px;line-height:1.5;font-size:13px}
-#speed{font-size:30px;font-weight:800}
-#gear{font-size:20px;color:#ffd45a}
-#mission{top:10px;left:50%;transform:translateX(-50%);min-width:250px;text-align:center}
-#status{right:10px;top:10px;text-align:right;line-height:1.55}
-#controls{position:absolute;inset:0;pointer-events:none}
-.btn{position:absolute;pointer-events:auto;touch-action:none;border:1px solid #ffffff3d;background:#111a;color:#fff;border-radius:50%;width:72px;height:72px;font-weight:700;font-size:14px;user-select:none}
-.btn:active,.active{background:#ffffff35}
-#left{left:24px;bottom:85px}#right{left:108px;bottom:85px}
-#gas{right:24px;bottom:55px;width:92px;height:92px;background:#143d22cc}
-#brake{right:132px;bottom:62px;width:74px;height:74px;background:#42191dcc}
-#hand{right:120px;bottom:155px;width:62px;height:62px}
-#clutch{left:210px;bottom:70px;width:66px;height:66px}
-#horn{left:200px;bottom:152px;width:58px;height:58px}
-#cam{right:18px;top:110px;width:54px;height:54px;border-radius:14px}
-#light{right:82px;top:110px;width:54px;height:54px;border-radius:14px}
-#pause{right:18px;top:52px;width:54px;height:44px;border-radius:12px}
-#settings{position:absolute;right:10px;bottom:10px;pointer-events:auto}
-select,input{accent-color:#e0a52a}
-#menu{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:5}
-#menu .box{width:min(92vw,460px);max-height:90vh;overflow:auto;background:#10151b;border:1px solid #ffffff25;border-radius:18px;padding:18px;box-shadow:0 20px 60px #000}
-.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0}
-.action{width:100%;padding:11px;border:0;border-radius:10px;background:#d69c2f;color:#111;font-weight:800}
-.small{font-size:12px;color:#b9c1c9}
-#loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#111;color:#fff;z-index:20;flex-direction:column;gap:10px}
-#loading b{font-size:24px}#error{display:none;max-width:80%;text-align:center;color:#ffb0b0}
-@media(max-width:700px){.panel{font-size:11px;padding:6px 8px}#mission{font-size:11px}.btn{width:62px;height:62px}#gas{width:82px;height:82px}}
-
-#portraitLock{display:none;position:fixed;inset:0;z-index:100;background:#07090c;color:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:20px;font-weight:800}
-#portraitLock .plbox{max-width:360px}
-#portraitLock .phone{font-size:64px;margin-bottom:15px;animation:rot 1.4s infinite alternate}
-#portraitLock button{margin-top:18px;border:0;border-radius:12px;padding:13px 22px;background:#d69c2f;color:#111;font-weight:800}
-@keyframes rot{from{transform:rotate(0)}to{transform:rotate(90deg)}}
-@media (orientation:portrait) and (max-width:900px){#portraitLock{display:flex}}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111;font-family:Arial,sans-serif;touch-action:none}
+#game{position:fixed;inset:0;width:100vw;height:100vh;display:block;background:#5d86b8}
+#hud{position:fixed;left:12px;top:10px;z-index:10;color:white;background:rgba(0,0,0,.58);padding:10px 14px;border-radius:12px;font-weight:700;line-height:1.55;text-shadow:0 2px 2px #000}
+#hud b{color:#ffd43b}
+#right{position:fixed;right:12px;top:10px;z-index:10;color:white;background:rgba(0,0,0,.58);padding:10px 14px;border-radius:12px;text-align:right;font-weight:700}
+#controls{position:fixed;inset:0;z-index:20;pointer-events:none}
+.btn{position:absolute;pointer-events:auto;border:2px solid rgba(255,255,255,.35);background:rgba(15,15,15,.68);color:white;border-radius:18px;font-size:22px;font-weight:bold;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 15px rgba(0,0,0,.35)}
+.btn:active{background:rgba(255,190,0,.8);color:#111}
+#left{left:22px;bottom:32px;width:78px;height:78px}
+#rightBtn{left:112px;bottom:32px;width:78px;height:78px}
+#brake{right:190px;bottom:32px;width:88px;height:78px}
+#gas{right:88px;bottom:32px;width:88px;height:78px}
+#gear{right:20px;bottom:125px;width:70px;height:70px}
+#cam{right:20px;bottom:32px;width:55px;height:55px;font-size:16px}
+#night{right:20px;top:95px;width:55px;height:55px;font-size:14px}
+#start{position:fixed;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);padding:18px 28px;border:0;border-radius:18px;background:#f2b705;color:#111;font-size:20px;font-weight:800;box-shadow:0 8px 25px #0008}
+#portrait{display:none;position:fixed;z-index:100;inset:0;background:#111;color:#fff;align-items:center;justify-content:center;text-align:center;font-size:24px;font-weight:800;padding:30px}
+@media (orientation:portrait){#portrait{display:flex}}
 </style>
 </head>
 <body>
-<div id="portraitLock"><div class="plbox"><div class="phone">📱</div><div>Oyunu yatay modda oynayın</div><div style="font-size:13px;font-weight:400;margin-top:10px;color:#bbc2ca">Telefonu yan çevirin. İsterseniz aşağıdaki butonla tam ekranı da açabilirsiniz.</div><button id="landscapeBtn">YATAY + TAM EKRAN</button></div></div>
-<div id="loading"><b>Tofaş Simulator V2</b><span>3D motor hazırlanıyor… (bağlantı yoksa çevrimdışı grafik açılır)</span><div id="error"></div></div>
 <canvas id="game"></canvas>
+
 <div id="hud">
-  <div id="stats" class="panel"><div id="speed">0 <small>km/h</small></div><div>RPM <b id="rpm">850</b></div><div>Vites <b id="gear">N</b></div><div>Yakıt <b id="fuel">100</b>%</div></div>
-  <div id="tach" class="panel" style="left:10px;top:130px;font-size:11px">TEMP <b id="temp">90</b>°C &nbsp; OIL <b id="oil">4.2</b> bar<br>STEER <b id="steerVal">0</b>° &nbsp; ABS <b id="abs">OFF</b></div><div id="mission" class="panel">Serbest sürüş • Şehri keşfet</div>
-  <div id="status" class="panel">☀️ Gündüz<br>💰 <span id="money">25000</span> TL<br>🚔 Aranma: <span id="wanted">0</span></div>
-  <div id="controls">
-    <button class="btn" id="left">◀</button><button class="btn" id="right">▶</button>
-    <button class="btn" id="gas">GAZ</button><button class="btn" id="brake">FREN</button>
-    <button class="btn" id="hand">EL<br>FRENİ</button><button class="btn" id="clutch">DEBRİYAJ</button>
-    <button class="btn" id="horn">KORNA</button><button class="btn" id="cam">KAMERA</button>
-    <button class="btn" id="light">FAR</button><button class="btn" id="pause">Ⅱ</button>
-  </div>
+  🚗 <b>TOFAŞ SİMULATOR</b><br>
+  Hız: <span id="speed">0</span> km/h<br>
+  Devir: <span id="rpm">850</span><br>
+  Vites: <span id="gearText">1</span>
 </div>
-<div id="menu"><div class="box">
-<h2>Tofaş Simulator V2</h2>
-<div class="row"><span>Model</span><select id="model"><option>Şahin</option><option>Doğan</option><option>Kartal</option></select></div>
-<div class="row"><span>Vites</span><select id="trans"><option value="manual">Manuel</option><option value="auto">Otomatik</option></select></div>
-<div class="row"><span>Motor sesi</span><input id="volume" type="range" min="0" max="1" step=".01" value=".45"></div>
-<div class="row"><span>Kamera hassasiyeti</span><input id="sens" type="range" min=".3" max="2.5" step=".1" value="1"></div>
-<div class="row"><span>Gece</span><button class="action" id="night">Gece/Gündüz</button></div>
-<div class="row"><span>Yağmur</span><button class="action" id="rain">Yağmur Aç/Kapat</button></div>
-<button class="action" id="resume">OYUNA DÖN</button><p class="small">V2 Ultra: iç kamera + kokpit, direksiyon, gösterge paneli, motor sıcaklığı/yağ basıncı, yüzey tutuşu, motor freni, aerodinamik direnç, süspansiyon gövde hareketi, trafik çarpışma etkisi ve yağmur görüş efekti.</p>
-<p class="small">PC: W/S gaz-fren • A/D direksiyon • Space el freni • C kamera • L far • M vites modu • R reset</p>
-</div></div>
+<div id="right">
+  💰 <span id="money">25000</span> ₺<br>
+  ⛽ <span id="fuel">100</span>%<br>
+  🌤️ <span id="weather">Gündüz</span>
+</div>
+
+<div id="controls">
+  <div class="btn" id="left">◀</div>
+  <div class="btn" id="rightBtn">▶</div>
+  <div class="btn" id="brake">FREN</div>
+  <div class="btn" id="gas">GAZ</div>
+  <div class="btn" id="gear">VİTES</div>
+  <div class="btn" id="cam">CAM</div>
+  <div class="btn" id="night">GECE</div>
+</div>
+
+<button id="start">OYUNU BAŞLAT</button>
+<div id="portrait">📱 Telefonu yatay çevir</div>
+
 <script>
-(function(){
-function requestLandscape(){
- try{
-  if(!document.fullscreenElement && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
- }catch(e){}
- try{
-  if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape');
- }catch(e){}
+(() => {
+"use strict";
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d",{alpha:false});
+let W=1280,H=720,dpr=1;
+
+function resize(){
+  dpr=Math.min(devicePixelRatio||1,2);
+  W=innerWidth; H=innerHeight;
+  canvas.width=Math.max(1,Math.floor(W*dpr));
+  canvas.height=Math.max(1,Math.floor(H*dpr));
+  canvas.style.width=W+"px"; canvas.style.height=H+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
 }
-const lb=document.getElementById('landscapeBtn');
-if(lb) lb.addEventListener('click',requestLandscape);
+addEventListener("resize",resize);
+resize();
 
-function startGame(){
- document.getElementById('loading').style.display='none';
- initOfflineFallback();
- requestLandscape();
+let running=false, night=false, cam=0;
+let speed=0, steer=0, rpm=850, gear=1, fuel=100, money=25000;
+let roadOffset=0, distance=0;
+let gas=false, brake=false, left=false, right=false;
+let last=performance.now();
+
+const traffic=[
+ {lane:-.55,z:.18,s:42,c:"#d93434"},
+ {lane:.55,z:.34,s:34,c:"#eeeeee"},
+ {lane:0,z:.56,s:30,c:"#2e63c7"},
+ {lane:-.55,z:.73,s:38,c:"#e0a52b"}
+];
+
+function bind(id,down,up){
+ const e=document.getElementById(id);
+ ["pointerdown","touchstart"].forEach(ev=>e.addEventListener(ev,x=>{x.preventDefault();down()}));
+ ["pointerup","pointercancel","pointerleave","touchend"].forEach(ev=>e.addEventListener(ev,x=>{x.preventDefault();up()}));
 }
-window.addEventListener('load',startGame); setTimeout(startGame,700);
-})();
+bind("gas",()=>gas=true,()=>gas=false);
+bind("brake",()=>brake=true,()=>brake=false);
+bind("left",()=>left=true,()=>left=false);
+bind("rightBtn",()=>right=true,()=>right=false);
 
-function initOfflineFallback(){
- const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
- let W=innerWidth,H=innerHeight,sp=0,steer=0,km=0,rpm=850,gear=1,fuel=100,money=25000,night=false,rain=false,cam=0,auto=false,paused=false;
- let worldX=0,worldZ=0;
- let keys={},touch={left:false,right:false,gas:false,brake:false,hand:false,clutch:false},last=performance.now(),roadShift=0,traffic=[];
- for(let i=0;i<9;i++)traffic.push({x:(Math.random()-.5)*1.15,z:Math.random()});
- const $=id=>document.getElementById(id);
- function resize(){W=innerWidth;H=innerHeight;canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
- addEventListener('resize',resize);resize();
- function bind(id,k){const el=$(id);if(!el)return;el.addEventListener('pointerdown',e=>{e.preventDefault();touch[k]=true;el.classList.add('active')});['pointerup','pointercancel','pointerleave'].forEach(t=>el.addEventListener(t,()=>{touch[k]=false;el.classList.remove('active')}))}
- bind('left','left');bind('right','right');bind('gas','gas');bind('brake','brake');bind('hand','hand');bind('clutch','clutch');
- addEventListener('keydown',e=>{keys[e.code]=true;if(e.code==='KeyC')cam=(cam+1)%3;if(e.code==='KeyL')night=!night;if(e.code==='KeyM')auto=!auto;if(e.code==='KeyR'){sp=0;steer=0}});
- addEventListener('keyup',e=>keys[e.code]=false);
- $('cam').onclick=()=>cam=(cam+1)%3;$('light').onclick=()=>night=!night;
- $('pause').onclick=()=>{$('menu').style.display='flex'};$('resume').onclick=()=>{$('menu').style.display='none'};
- $('model').onchange=()=>{};$('trans').onchange=e=>auto=e.target.value==='auto';
- $('night').onclick=()=>night=!night;$('rain').onclick=()=>rain=!rain;
- $('sens').oninput=e=>{};$('volume').oninput=e=>{};
- function poly(points,color){ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let p of points.slice(1))ctx.lineTo(p[0],p[1]);ctx.closePath();ctx.fill()}
- function draw(now){
-  let dt=Math.min(.04,(now-last)/1000);last=now;
-  if($('menu').style.display!=='flex'){
-   let gas=touch.gas||keys.KeyW||keys.ArrowUp,br=touch.brake||keys.KeyS||keys.ArrowDown;
-   let s=(touch.left||keys.KeyA||keys.ArrowLeft?-1:0)+(touch.right||keys.KeyD||keys.ArrowRight?1:0);
-   steer+=(s-steer)*Math.min(1,dt*7);
-   if(auto)gear=Math.min(5,1+Math.floor(Math.abs(sp)*3.6/20));
-   sp+=(gas?.75:0)-(br?1.7:0)-(touch.hand||keys.Space?1.2:0)-sp*.12;
-   sp=Math.max(-5,Math.min(42,sp));km=Math.abs(sp)*3.6;rpm=Math.round(850+(gas?km*65:0));fuel=Math.max(0,fuel-dt*(gas?.035:.004));
-   roadShift=(roadShift+sp*dt*.06)%1;
-   traffic.forEach(t=>{t.z+=dt*(.07+Math.abs(sp)*.003);if(t.z>1.2){t.z=0;t.x=(Math.random()-.5)*1.1}});
-  }
-  ctx.clearRect(0,0,W,H);
-  let sky=night?'#071322':'#83b5d2',far=night?'#18212a':'#b6c8bb';ctx.fillStyle=sky;ctx.fillRect(0,0,W,H*.55);ctx.fillStyle=far;ctx.fillRect(0,H*.38,W,H*.17);
-  // distant city silhouettes
-  for(let i=0;i<35;i++){let x=(i*137)%W,h=25+(i*47)%90;ctx.fillStyle=night?'#131a22':'#7b887d';ctx.fillRect(x,H*.48-h,W/45,h)}
-  ctx.fillStyle=night?'#17231d':'#526f4a';ctx.fillRect(0,H*.55,W,H*.45);
-  let horizon=H*.49,shift=steer*W*.10;
-  poly([[W*.39+shift,horizon],[W*.61+shift,horizon],[W*1.2,H],[W*-.2,H]],'#292d31');
-  // shoulders
-  poly([[W*.36+shift,horizon],[W*.39+shift,horizon],[W*-.2,H],[0,H]],'#8b8d83');
-  poly([[W*.61+shift,horizon],[W*.64+shift,horizon],[W,H],[W*1.2,H]],'#8b8d83');
-  // road lane markings in perspective
-  for(let i=0;i<14;i++){let z=((i/14+roadShift)%1),y=horizon+(H-horizon)*z*z,x=W*.5+shift+(W*.5)*z*(steer*.16);let ww=1+z*5,hh=2+z*20;ctx.fillStyle='#e8dfb3';ctx.fillRect(x-ww/2,y,ww,hh)}
-  // roadside trees/buildings perspective
-  for(let i=0;i<18;i++){let z=((i/18+roadShift*.7)%1),y=horizon+(H-horizon)*z*z,size=5+z*60;let side=i%2?-1:1,x=W*.5+shift+side*(W*.13+z*W*.62);
-   if(i%3===0){ctx.fillStyle=night?'#252d31':'#8a8270';ctx.fillRect(x-size*.3,y-size*1.5,size*.6,size*1.5);ctx.fillStyle=night?'#ffe4a0':'#9cc4d1';for(let q=0;q<3;q++)ctx.fillRect(x-size*.2+q*size*.18,y-size*1.3,size*.08,size*.12)}
-   else{ctx.fillStyle='#5d412c';ctx.fillRect(x-size*.05,y-size*.55,size*.1,size*.55);ctx.fillStyle=night?'#18331f':'#2e6334';ctx.beginPath();ctx.arc(x,y-size*.65,size*.3,0,Math.PI*2);ctx.fill()}
-  }
-  // traffic cars
-  traffic.forEach(t=>{let z=t.z,y=horizon+(H-horizon)*z*z,scale=.12+z*.85,x=W*.5+shift+t.x*W*.34*scale;ctx.fillStyle='#111';ctx.fillRect(x-19*scale,y-20*scale,38*scale,35*scale);ctx.fillStyle=['#a91f25','#c9c9c9','#263f68','#d5b64e'][Math.floor(z*4)%4];ctx.fillRect(x-17*scale,y-25*scale,34*scale,30*scale);ctx.fillStyle='#9bc2d2';ctx.fillRect(x-13*scale,y-22*scale,26*scale,9*scale)});
-  // player car, stylized Tofaş silhouette
-  let cx=W*.5-steer*W*.07,cy=H*.82,scale=Math.min(W/800,H/500);
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(-steer*.09);
-  ctx.fillStyle='#08090a';ctx.beginPath();ctx.ellipse(0,25*scale,105*scale,38*scale,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle=night?'#9e202a':'#9d1824';ctx.beginPath();ctx.moveTo(-100*scale,20*scale);ctx.lineTo(-88*scale,-35*scale);ctx.lineTo(-60*scale,-65*scale);ctx.lineTo(55*scale,-65*scale);ctx.lineTo(87*scale,-30*scale);ctx.lineTo(100*scale,20*scale);ctx.closePath();ctx.fill();
-  ctx.fillStyle='#142c39';ctx.beginPath();ctx.moveTo(-57*scale,-59*scale);ctx.lineTo(-42*scale,-86*scale);ctx.lineTo(38*scale,-86*scale);ctx.lineTo(58*scale,-59*scale);ctx.closePath();ctx.fill();
-  ctx.fillStyle='#101114';ctx.fillRect(-94*scale,-3*scale,23*scale,39*scale);ctx.fillRect(71*scale,-3*scale,23*scale,39*scale);
-  ctx.fillStyle='#e5e1c7';ctx.fillRect(-82*scale,-26*scale,23*scale,10*scale);ctx.fillRect(59*scale,-26*scale,23*scale,10*scale);
-  ctx.fillStyle='#ffdf8b';ctx.fillRect(-81*scale,-27*scale,21*scale,7*scale);ctx.fillRect(60*scale,-27*scale,21*scale,7*scale);
-  ctx.fillStyle='#17191b';ctx.fillRect(-25*scale,2*scale,50*scale,8*scale);
-  ctx.restore();
-  if(rain){ctx.strokeStyle='#bce3ff66';ctx.lineWidth=1;for(let i=0;i<90;i++){let x=(i*97+now*.15)%W,y=(i*53+now*.5)%(H*.8);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-5,y+13);ctx.stroke()}}
-  
-  if(night){ctx.fillStyle='#06101c55';ctx.fillRect(0,0,W,H);let grad=ctx.createRadialGradient(W/2,H*.68,20,W/2,H*.68,H*.8);grad.addColorStop(0,'#ffe8a022');grad.addColorStop(1,'#00000000');ctx.fillStyle=grad;ctx.fillRect(0,0,W,H)}
-  /* minimap */
-  let mx=W-105,my=105,ms=86;ctx.fillStyle='#071018cc';ctx.beginPath();ctx.roundRect(mx-ms/2,my-ms/2,ms,ms,10);ctx.fill();
-  ctx.strokeStyle='#777';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(mx-ms/2,my);ctx.lineTo(mx+ms/2,my);ctx.moveTo(mx,my-ms/2);ctx.lineTo(mx,my+ms/2);ctx.stroke();
-  ctx.fillStyle='#ffcc55';ctx.beginPath();ctx.arc(mx,my,5,0,Math.PI*2);ctx.fill();
+document.getElementById("gear").onclick=()=>{gear++;if(gear>5)gear=1};
+document.getElementById("cam").onclick=()=>{cam=(cam+1)%3};
+document.getElementById("night").onclick=()=>{night=!night;document.getElementById("weather").textContent=night?"Gece":"Gündüz"};
 
-  $('speed').innerHTML=Math.round(km)+' <small>km/h</small>';$('rpm').textContent=rpm;$('gear').textContent=auto?'D':gear;$('fuel').textContent=Math.round(fuel);$('money').textContent=money;
-  $('mission').textContent='Çevrimdışı sürüş modu • Şehri keşfet';
-  requestAnimationFrame(draw);
+addEventListener("keydown",e=>{
+ if(["ArrowUp","w","W"].includes(e.key))gas=true;
+ if(["ArrowDown","s","S"].includes(e.key))brake=true;
+ if(["ArrowLeft","a","A"].includes(e.key))left=true;
+ if(["ArrowRight","d","D"].includes(e.key))right=true;
+ if(e.key==="n"||e.key==="N")night=!night;
+});
+addEventListener("keyup",e=>{
+ if(["ArrowUp","w","W"].includes(e.key))gas=false;
+ if(["ArrowDown","s","S"].includes(e.key))brake=false;
+ if(["ArrowLeft","a","A"].includes(e.key))left=false;
+ if(["ArrowRight","d","D"].includes(e.key))right=false;
+});
+
+document.getElementById("start").onclick=async()=>{
+ running=true;
+ document.getElementById("start").style.display="none";
+ try{await document.documentElement.requestFullscreen()}catch(e){}
+ try{await screen.orientation.lock("landscape")}catch(e){}
+};
+
+function lerp(a,b,t){return a+(b-a)*t}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function roadY(z){return lerp(H*.50,H*.92,z)}
+function roadHalf(z){return lerp(W*.055,W*.46,z)}
+function roadX(z){return W/2 + steer*W*.10*z}
+
+function drawSky(){
+ ctx.fillStyle=night?"#08152d":"#68a5d9";
+ ctx.fillRect(0,0,W,H*.58);
+ if(!night){
+   const g=ctx.createLinearGradient(0,0,0,H*.58);
+   g.addColorStop(0,"#5b9bd1");g.addColorStop(1,"#b9d9ee");
+   ctx.fillStyle=g;ctx.fillRect(0,0,W,H*.58);
+   ctx.fillStyle="#ffd65a";ctx.beginPath();ctx.arc(W*.82,H*.16,42,0,Math.PI*2);ctx.fill();
+ }else{
+   ctx.fillStyle="#fff"; 
+   for(let i=0;i<80;i++){let x=(i*83)%W,y=(i*47)%(H*.48);ctx.fillRect(x,y,2,2)}
+   ctx.fillStyle="#ddd";ctx.beginPath();ctx.arc(W*.82,H*.16,28,0,Math.PI*2);ctx.fill();
  }
- requestAnimationFrame(draw);
 }
+
+function drawCity(){
+ ctx.fillStyle=night?"#121b2b":"#667078";
+ for(let i=0;i<24;i++){
+   const x=i*W/23;
+   const h=45+(i*37)%130;
+   ctx.fillRect(x,H*.50-h,W/28,h);
+   if(i%2===0){
+     ctx.fillStyle=night?"#f3d56a":"#a8c0cc";
+     for(let y=H*.50-h+12;y<H*.49;y+=18)ctx.fillRect(x+8,y,7,7);
+     ctx.fillStyle=night?"#121b2b":"#667078";
+   }
+ }
+}
+
+function drawRoad(){
+ ctx.fillStyle=night?"#151515":"#4c554d";
+ ctx.fillRect(0,H*.50,W,H*.50);
+ // roadside
+ ctx.fillStyle=night?"#0d2415":"#3d7a3b";
+ ctx.fillRect(0,H*.50,W,H*.50);
+ for(let i=0;i<70;i++){
+   const z=((i/70+roadOffset)%1);
+   const y=roadY(z), rh=roadHalf(z), x=roadX(z);
+   ctx.fillStyle=night?"#202020":"#383838";
+   ctx.beginPath();ctx.moveTo(x-rh,y);ctx.lineTo(x+rh,y);ctx.lineTo(x+rh*.92,y+7+z*7);ctx.lineTo(x-rh*.92,y+7+z*7);ctx.closePath();ctx.fill();
+   if(i%2===0){
+     ctx.fillStyle="#eee";
+     const mw=Math.max(2,rh*.018);
+     ctx.fillRect(x-rh/3-mw/2,y,mw,Math.max(3,12*z));
+     ctx.fillRect(x+rh/3-mw/2,y,mw,Math.max(3,12*z));
+   }
+ }
+ // guardrails
+ for(let side of [-1,1]){
+   ctx.strokeStyle="#aaa";ctx.lineWidth=3;
+   ctx.beginPath();
+   for(let i=0;i<=40;i++){const z=i/40;const y=roadY(z),rh=roadHalf(z),x=roadX(z)+side*rh*1.05;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
+   ctx.stroke();
+ }
+}
+
+function drawTrees(){
+ for(let i=0;i<24;i++){
+   const z=((i/24+roadOffset*.8)%1);
+   const y=roadY(z),rh=roadHalf(z),x=roadX(z);
+   for(let side of [-1,1]){
+     const tx=x+side*(rh+35+z*100), ty=y-50*z-18;
+     const s=.3+z*1.2;
+     ctx.fillStyle="#513a25";ctx.fillRect(tx-4*s,ty,8*s,35*s);
+     ctx.fillStyle=night?"#174b28":"#27743b";
+     ctx.beginPath();ctx.arc(tx,ty,22*s,0,Math.PI*2);ctx.fill();
+   }
+ }
+}
+
+function drawTraffic(){
+ traffic.forEach((c,i)=>{
+   c.z+=.0008*(speed+10);
+   if(c.z>1)c.z=-.05;
+   const z=c.z,y=roadY(z),rh=roadHalf(z),x=roadX(z)+c.lane*rh*.78;
+   const sc=.12+z*.95;
+   const w=42*sc,h=70*sc;
+   ctx.save();ctx.translate(x,y-h*.55);
+   ctx.fillStyle="#111";ctx.fillRect(-w*.56,-h*.12,w*.18,h*.68);ctx.fillRect(w*.38,-h*.12,w*.18,h*.68);
+   ctx.fillStyle=c.c;ctx.fillRect(-w/2,-h/2,w,h*.72);
+   ctx.fillStyle="#151515";ctx.fillRect(-w*.36,-h*.42,w*.72,h*.23);
+   ctx.fillStyle="#f5e8c4";ctx.fillRect(-w*.38,h*.03,w*.18,h*.13);ctx.fillRect(w*.20,h*.03,w*.18,h*.13);
+   ctx.restore();
+ });
+}
+
+function drawPlayer(){
+ const cx=W/2+steer*W*.12;
+ const base=H*.84;
+ const scale=cam===2?.78:1;
+ ctx.save();ctx.translate(cx,base);ctx.scale(scale,scale);
+ // shadow
+ ctx.fillStyle="rgba(0,0,0,.45)";ctx.beginPath();ctx.ellipse(0,18,115,25,0,0,Math.PI*2);ctx.fill();
+ // wheels
+ ctx.fillStyle="#101010";
+ for(let x of [-75,75])ctx.roundRect(x-13,-55,26,80,8),ctx.fill();
+ // body
+ ctx.fillStyle="#b7192a";
+ ctx.beginPath();ctx.roundRect(-92,-105,184,125,18);ctx.fill();
+ // bumper
+ ctx.fillStyle="#c9c9c9";ctx.fillRect(-98,0,196,14);
+ // windows
+ ctx.fillStyle="#152b3c";
+ ctx.beginPath();ctx.moveTo(-70,-98);ctx.lineTo(-42,-145);ctx.lineTo(42,-145);ctx.lineTo(70,-98);ctx.closePath();ctx.fill();
+ // window divider
+ ctx.fillStyle="#222";ctx.fillRect(-3,-143,6,45);
+ // hood
+ ctx.fillStyle="#c52232";ctx.fillRect(-74,-35,148,32);
+ // grille
+ ctx.fillStyle="#1c1c1c";ctx.fillRect(-48,-9,96,18);
+ for(let x=-40;x<=40;x+=16){ctx.fillStyle="#aaa";ctx.fillRect(x,-8,8,2)}
+ // headlights
+ ctx.fillStyle="#fff1b0";ctx.fillRect(-78,-15,25,18);ctx.fillRect(53,-15,25,18);
+ // tail / details
+ ctx.fillStyle="#64101a";ctx.fillRect(-75,8,30,7);ctx.fillRect(45,8,30,7);
+ ctx.fillStyle="#eee";ctx.font="bold 11px Arial";ctx.textAlign="center";ctx.fillText("TOFAŞ",0,-3);
+ // mirrors
+ ctx.fillStyle="#111";ctx.fillRect(-102,-88,18,9);ctx.fillRect(84,-88,18,9);
+ ctx.restore();
+}
+
+function drawCockpit(){
+ if(cam!==1)return;
+ ctx.fillStyle="rgba(8,8,8,.82)";
+ ctx.fillRect(0,H*.72,W,H*.28);
+ ctx.strokeStyle="#ddd";ctx.lineWidth=9;
+ ctx.beginPath();ctx.arc(W*.5,H*.91,85,0,Math.PI*2);ctx.stroke();
+ ctx.fillStyle="#111";ctx.beginPath();ctx.arc(W*.5,H*.91,55,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle="#fff";ctx.font="bold 16px Arial";ctx.textAlign="center";
+ ctx.fillText("TOFAŞ",W*.5,H*.915);
+}
+
+function drawMiniMap(){
+ const x=W-170,y=H-145,w=145,h=125;
+ ctx.fillStyle="rgba(0,0,0,.65)";ctx.fillRect(x,y,w,h);
+ ctx.strokeStyle="#fff";ctx.strokeRect(x,y,w,h);
+ ctx.strokeStyle="#ddd";ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(x+w/2,y);ctx.lineTo(x+w/2,y+h);ctx.stroke();
+ ctx.fillStyle="#e33";ctx.beginPath();ctx.arc(x+w/2,y+h*.72,7,0,Math.PI*2);ctx.fill();
+ for(let i=0;i<5;i++){ctx.fillStyle="#777";ctx.fillRect(x+10+i*25,y+10+(i*17)%90,14,10)}
+}
+
+function update(dt){
+ if(!running)return;
+ const target=gas?Math.min(180, speed+70*dt):speed-Math.max(4,speed*.018)*dt;
+ speed=clamp(target,0,180);
+ if(brake)speed=clamp(speed-120*dt,0,180);
+ const st=(right?1:0)-(left?1:0);
+ steer=lerp(steer,st,.14);
+ roadOffset=(roadOffset+speed*dt*.00075)%1;
+ distance+=speed*dt/3.6;
+ fuel=clamp(fuel-speed*dt*.0008,0,100);
+ rpm=850+speed*55+Math.abs(steer)*500;
+ document.getElementById("speed").textContent=Math.round(speed);
+ document.getElementById("rpm").textContent=Math.round(rpm);
+ document.getElementById("gearText").textContent=gear;
+ document.getElementById("fuel").textContent=Math.round(fuel);
+}
+
+function draw(){
+ // IMPORTANT: always paint the whole canvas first
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ ctx.fillStyle="#5d86b8";ctx.fillRect(0,0,W,H);
+ drawSky();
+ drawCity();
+ drawRoad();
+ drawTrees();
+ drawTraffic();
+ drawPlayer();
+ drawCockpit();
+ drawMiniMap();
+ if(night){ctx.fillStyle="rgba(0,0,45,.10)";ctx.fillRect(0,0,W,H)}
+}
+
+function loop(t){
+ const dt=Math.min(.05,(t-last)/1000);last=t;
+ update(dt);draw();requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// Draw immediately, even before the Start button is pressed.
+draw();
+})();
+</script>
+</body>
+</html>
